@@ -1,0 +1,41 @@
+<!-- <app-main></app-main> -->
+<div class="vechicles-wrapper">
+    <app-loader *ngIf="isLoading"></app-loader>
+    <div class="vechicles-header" *ngIf="vechicles.length">{{selectedVechicle ? selectedVechicle.name : 'Vechicles List'}}</div>
+    <div class="d-flex align-items-center justify-content-center" (click)="selectedVechicle = undefined" *ngIf="selectedVechicle">
+        <img class="icon" src="../assets/png/arrow.png"/> 
+        <div class="back-text">Back</div>
+    </div>
+    <ng-container *ngIf="!selectedVechicle">
+        <div class="d-flex" *ngFor="let vechicle of vechicles; let i=index">
+            <div class="vechicle-index d-flex justify-content-center align-items-center">
+                {{((currentPage - 1) * 10) + (i + 1)}}</div>
+            <div class="list shadow-2">
+                <div (click)="showVechicleDetails(vechicle)">
+                    <span class="vechicle-name">{{ vechicle.name}}</span>
+                    <span class="model">( {{ vechicle.model}} )</span></div>
+            </div>
+        </div>
+    </ng-container>
+    
+    <div class="vechicle-details" *ngIf="selectedVechicle">
+        <div class="d-flex details-list shadow-2" *ngFor="let key of selectedVehicleKeys">
+            <div class="half-flex bold d-flex justify-content-between">
+                <div class="vechicle-detail-key">{{key.toUpperCase()}}</div>
+                <div class="mr-1">:</div>
+            </div>
+            <div class="half-flex vechicle-detail-value">{{selectedVechicle[key]}}</div>
+        </div>
+    </div>
+    
+    <div class="d-flex justify-content-end align-items-center mt-2" *ngIf="pages.length > 0 && !selectedVechicle">
+        <div (click)="navigatePage(currentPage - 1)" [ngClass]="{'disabled' : currentPage === 1}">
+            <img class="icon" src="../assets/png/left-arrow.png"/>
+        </div>
+        <div class="page-no mb-2">{{currentPage}}</div>
+        <div (click)="navigatePage(currentPage + 1)" [ngClass]="{'disabled' : currentPage === pages.length}">
+            <img class="icon" src="../assets/png/right-arrow.png"/>
+        </div>
+    </div>
+
+</div>
